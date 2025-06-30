@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('produks', function (Blueprint $table) {
-            $table->id(); // ID otomatis (primary key)
+            $table->id(); // ID auto-increment (primary key)
+            $table->string('kode_produk')->unique(); // Kode unik produk (PRD001, PRD002, etc)
             $table->unsignedBigInteger('id_kategori'); // relasi ke kategori
             $table->string('nama_produk');
             $table->string('image_url');
@@ -21,8 +22,8 @@ return new class extends Migration
             $table->integer('stock');
             $table->timestamps();
 
-            // Foreign key (opsional, jika ada tabel kategori)
-            // $table->foreign('id_kategori')->references('id')->on('kategoris');
+            // Foreign key ke tabel kategoris
+            $table->foreign('id_kategori')->references('id')->on('kategoris')->onDelete('cascade');
         });
     }
     public function down(): void

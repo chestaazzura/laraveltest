@@ -12,17 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_items', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->string('id_order_item')->unique(); // ID manual item pesanan
-            $table->unsignedBigInteger('id_order'); // Relasi ke tabel orders
-            $table->unsignedBigInteger('id_produk'); // Relasi ke tabel produk
+            $table->id(); // Primary key auto-increment
+            $table->unsignedBigInteger('id_order'); // Relasi ke tabel orders (menggunakan id auto-increment)
+            $table->unsignedBigInteger('id_produk'); // Relasi ke tabel produk (menggunakan id auto-increment)
             $table->integer('quantity'); // Jumlah barang
             $table->decimal('harga', 10, 2); // Harga per item
             $table->timestamps();
 
-            // Foreign key opsional (aktifkan jika tabel relasi tersedia)
-            // $table->foreign('id_order')->references('id')->on('orders')->onDelete('cascade');
-            // $table->foreign('id_produk')->references('id')->on('produks')->onDelete('cascade');
+            // Foreign key constraints
+            $table->foreign('id_order')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('id_produk')->references('id')->on('produks')->onDelete('cascade');
         });
     }
 

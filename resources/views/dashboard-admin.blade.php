@@ -1,185 +1,151 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard || Manajemen Resep Makanan Indonesia</title>
-    <link rel="icon" type="image/png" href="{{ asset('image/logo1.png') }}">
+@extends('layouts.dashboard')
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+@section('title', 'Dashboard Admin')
+@section('page-title', 'Dashboard Admin')
 
-    <style>
-        body {
-            font-family: 'Source Sans Pro', sans-serif !important;
-        }
-        .fc-daygrid-day-number {
-            color: white !important;
-        }
-        .fc-daygrid-day {
-            border: none !important;
-        }
-    </style>
-</head>
-<body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+    <li class="breadcrumb-item active">Dashboard Admin</li>
+@endsection
 
-        @include('include.navbarSistem')
-        @include('include.sidebar')
+@section('content')
+    <!-- Row Horizontal: Statistik -->
+    <div class="row">
+        <!-- Kategori -->
+        <div class="col-lg-3 col-md-6 col-12">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ $totalKategori ?? 0 }}</h3>
+                    <p>Total Kategori</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-th-list"></i>
+                </div>
+                <a href="{{ route('admin.kategori.index') }}" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 
-        <!-- Content Wrapper -->
-        <div class="content-wrapper">
+        <!-- Produk -->
+        <div class="col-lg-3 col-md-6 col-12">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ $totalProduk ?? 0 }}</h3>
+                    <p>Total Produk</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <a href="{{ route('admin.produks.index') }}" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 
-            <!-- Header -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard Admin</h1>
+        <!-- Order -->
+        <div class="col-lg-3 col-md-6 col-12">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ $totalOrder ?? 0 }}</h3>
+                    <p>Total Order</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Customer -->
+        <div class="col-lg-3 col-md-6 col-12">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ $totalCustomer ?? 0 }}</h3>
+                    <p>Total Customer</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row: Info dan Chart -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-line"></i> Grafik Penjualan
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="salesChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-bullhorn"></i> Info Terbaru
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="time-label">
+                            <span class="bg-green">{{ date('d M Y') }}</span>
                         </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard Admin</li>
-                            </ol>
+                        <div>
+                            <i class="fas fa-shopping-cart bg-blue"></i>
+                            <div class="timeline-item">
+                                <span class="time"><i class="fas fa-clock"></i> {{ date('H:i') }}</span>
+                                <h3 class="timeline-header">Order Baru</h3>
+                                <div class="timeline-body">
+                                    Ada {{ $totalOrder ?? 0 }} order yang perlu diproses
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Main Content -->
-            <section class="content">
-                <div class="container-fluid">
-
-                   <!-- Row Horizontal: Statistik, Promo & Sponsor -->
-                    <div class="row">
-                        <!-- Kategori -->
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>{{ $totalKategori ?? 0 }}</h3>
-                                    <p>Kategori Roti</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-th-list"></i>
-                                </div>
-                                <a href="{{ url('kategori') }}" class="small-box-footer">
-                                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>{{ $totalMenu ?? 0 }}</h3>
-                                    <p>Total Menu Roti</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-utensils"></i>
-                                </div>
-                                <a href="{{ url('menu') }}" class="small-box-footer">
-                                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Promo -->
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>{{ $totalPromo ?? 0 }}</h3>
-                                    <p>Total Promo</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-tags"></i>
-                                </div>
-                                <a href="{{ url('promo') }}" class="small-box-footer">
-                                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Sponsor -->
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="small-box bg-secondary">
-                                <div class="inner">
-                                    <h3>{{ $totalSponsor ?? 0 }}</h3>
-                                    <p>Total Sponsor</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-handshake"></i>
-                                </div>
-                                <a href="{{ url('sponsor') }}" class="small-box-footer">
-                                    Lihat Detail <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Row 3: Info Resep -->
-                    <div class="row">
-                        <section class="col-lg-7 connectedSortable">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <i class="fas fa-bullhorn"></i> Info Resep Terbaru
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <p class="text-center text-muted">Tidak ada pengumuman terbaru.</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-
-                </div>
-            </section>
-
         </div>
-
-        @include('include.footerSistem')
     </div>
+@endsection
 
-    @include('services.ToastModal')
-    {{-- @include('services.LogoutModal') --}}
-
-    <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Aktifkan treeview dropdown
-            $('[data-widget="treeview"]').each(function () {
-                AdminLTE.Treeview._jQueryInterface.call($(this));
-            });
-        });
-    </script>
-    <script src="{{ asset('resources/js/ToastScript.js') }}"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            if (calendarEl) {
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    locale: 'id'
-                });
-                calendar.render();
+        // Sales Chart
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Penjualan',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
-
-            $('[data-widget="treeview"]').each(function () {
-                AdminLTE.Treeview._jQueryInterface.call($(this));
-            });
         });
     </script>
-</body>
-</html>
+@endpush

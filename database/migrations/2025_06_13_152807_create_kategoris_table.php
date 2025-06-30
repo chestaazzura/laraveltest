@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kategoris', function (Blueprint $table) {
-            $table->id(); // Primary key: id
-            $table->string('id_kategori')->unique(); // ID kategori manual (unik)
+            $table->id(); // Primary key auto-increment
             $table->string('nama_kategori');
             $table->text('deskripsi')->nullable();
             $table->string('image_url')->nullable(); // URL gambar kategori

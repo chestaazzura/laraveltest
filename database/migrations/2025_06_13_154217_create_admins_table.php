@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->string('id_admin')->unique(); // ID admin manual, contoh: ADM001
-            $table->string('username')->unique();
+            $table->string('name');
             $table->string('email')->unique();
-            $table->string('password'); // Enkripsi password disarankan
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps(); // created_at & updated_at
         });
     }

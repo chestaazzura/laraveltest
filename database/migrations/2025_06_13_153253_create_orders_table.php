@@ -19,8 +19,8 @@ return new class extends Migration
             $table->enum('status', ['pending', 'dibayar', 'dikirim', 'selesai', 'batal'])->default('pending'); // Status pesanan
             $table->timestamps();
 
-            // Jika ada tabel 'pelanggans', bisa tambahkan FK seperti ini:
-            // $table->foreign('id_pelanggan')->references('id')->on('pelanggans');
+            // Foreign key ke tabel pelanggans
+            $table->foreign('id_pelanggan')->references('id')->on('pelanggans')->onDelete('cascade');
         });
     }
 
