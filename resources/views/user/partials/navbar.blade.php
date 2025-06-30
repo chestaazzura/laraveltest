@@ -3,14 +3,14 @@
     <!-- Top bar: logo + links -->
     <div class="container mx-auto flex justify-between items-center py-2 px-4">
         <!-- Logo -->
-        <a href="{{ route('home.index') }}">
+        <a href="{{ route('home') }}">
             <img src="{{ asset('storage/img/BabyCare.png') }}" alt="BabyCare Logo" class="h-10">
         </a>
 
         <!-- Grup ID + Contact Us dalam satu flex container -->
         <div class="flex items-center space-x-4">
             <img src="{{ asset('storage/img/language.png') }}" alt="Bahasa" width="40">
-            <a href="https://wa.me/08319343746" class="flex items-center space-x-2 hover:underline" target="_blank">
+            <a href="https://wa.me/6283119343746" class="flex items-center space-x-2 hover:underline" target="_blank">
                 <img src="{{ asset('storage/img/contact.png') }}" alt="Chat via WhatsApp" width="100">
             </a>
         </div>
@@ -22,7 +22,7 @@
 
             <!-- Nav Kategori di Kiri -->
             <nav class="flex space-x-6 text-sm font-semibold text-gray-700">
-                <a href="{{ route('home.index') }}" class="hover:text-blue-600 {{ request()->routeIs('home.index') ? 'text-blue-600' : '' }}">Home</a>
+                <a href="{{ route('home') }}" class="hover:text-blue-600 {{ request()->routeIs('home') ? 'text-blue-600' : '' }}">Home</a>
                 <a href="{{ route('user.produks.index') }}" class="hover:text-blue-600 {{ request()->routeIs('user.produks.*') ? 'text-blue-600' : '' }}">Semua Produk</a>
                 @php
                     $kategoris = \App\Models\Kategori::all();

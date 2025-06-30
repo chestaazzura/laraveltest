@@ -38,8 +38,8 @@ class ProdukController extends Controller
         if ($request->hasFile('image_url')) {
             $file = $request->file('image_url');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/img/produk', $filename);
-            $data['image_url'] = 'img/produk/' . $filename;
+            $file->storeAs('public/uploads/produk', $filename);
+            $data['image_url'] = $filename;
         }
 
         Produk::create($data);
@@ -73,15 +73,15 @@ class ProdukController extends Controller
         // Cek jika user upload gambar baru
         if ($request->hasFile('image_url')) {
             // Hapus gambar lama
-            if ($produk->image_url && Storage::exists('public/' . $produk->image_url)) {
-                Storage::delete('public/' . $produk->image_url);
+            if ($produk->image_url && Storage::exists('public/uploads/produk/' . $produk->image_url)) {
+                Storage::delete('public/uploads/produk/' . $produk->image_url);
             }
 
             // Simpan gambar baru
             $file = $request->file('image_url');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/img/produk', $filename);
-            $data['image_url'] = 'img/produk/' . $filename;
+            $file->storeAs('public/uploads/produk', $filename);
+            $data['image_url'] = $filename;
         }
 
         $produk->update($data);
@@ -92,8 +92,8 @@ class ProdukController extends Controller
     public function destroy(Produk $produk)
     {
         // Hapus gambar jika ada
-        if ($produk->image_url && Storage::exists('public/' . $produk->image_url)) {
-            Storage::delete('public/' . $produk->image_url);
+        if ($produk->image_url && Storage::exists('public/uploads/produk/' . $produk->image_url)) {
+            Storage::delete('public/uploads/produk/' . $produk->image_url);
         }
 
         $produk->delete();

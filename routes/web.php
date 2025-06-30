@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\KategoriController as AdminKategoriController;
-use App\Http\Controllers\Admin\ProdukController as AdminProdukController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\User\ProdukController as UserProdukController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
@@ -12,12 +11,12 @@ use App\Http\Controllers\User\HomeController as UserHomeController;
 require __DIR__ . '/auth.php';
 
 // User Routes (Public)
-Route::get('/', [UserHomeController::class, 'index'])->name('home.index');
+Route::get('/', [UserHomeController::class, 'index'])->name('home');
 
 Route::prefix('user')->name('user.')->group(function () {
-    Route::get('/products', [UserProdukController::class, 'index'])->name('produks.index');
-    Route::get('/products/{produk}', [UserProdukController::class, 'show'])->name('produks.show');
-    Route::get('/category/{kategori}', [UserProdukController::class, 'byCategory'])->name('produks.category');
+    Route::get('/produks', [UserProdukController::class, 'index'])->name('produks.index');
+    Route::get('/produks/{produk}', [UserProdukController::class, 'show'])->name('produks.show');
+    Route::get('/produks/category/{kategori}', [UserProdukController::class, 'byCategory'])->name('produks.category');
 });
 
 // Admin Routes (Protected)
@@ -25,37 +24,48 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Kategori Management
-    Route::prefix('kategori')->name('kategori.')->group(function () {
-        Route::get('/', [AdminKategoriController::class, 'index'])->name('index');
-        Route::get('/create', [AdminKategoriController::class, 'create'])->name('create');
-        Route::post('/', [AdminKategoriController::class, 'store'])->name('store');
-        Route::get('/{kategori}', [AdminKategoriController::class, 'show'])->name('show');
-        Route::get('/{kategori}/edit', [AdminKategoriController::class, 'edit'])->name('edit');
-        Route::put('/{kategori}', [AdminKategoriController::class, 'update'])->name('update');
-        Route::delete('/{kategori}', [AdminKategoriController::class, 'destroy'])->name('destroy');
-    });
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+    Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+    Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::get('/kategori/{kategori}', [KategoriController::class, 'show'])->name('kategori.show');
+    Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::put('/kategori/{kategori}', [KategoriController::class, 'update'])->name('kategori.update');
+    Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 
     // Produk Management
-    Route::prefix('produks')->name('produks.')->group(function () {
-        Route::get('/', [AdminProdukController::class, 'index'])->name('index');
-        Route::get('/create', [AdminProdukController::class, 'create'])->name('create');
-        Route::post('/store', [AdminProdukController::class, 'store'])->name('store');
-        Route::get('/{produk}', [AdminProdukController::class, 'show'])->name('show');
-        Route::get('/{produk}/edit', [AdminProdukController::class, 'edit'])->name('edit');
-        Route::put('/{produk}', [AdminProdukController::class, 'update'])->name('update');
-        Route::delete('/{produk}', [AdminProdukController::class, 'destroy'])->name('destroy');
-    });
-});
+    Route::get('/produks', [ProdukController::class, 'index'])->name('produks.index');
+    Route::get('/produks/create', [ProdukController::class, 'create'])->name('produks.create');
+    Route::post('/produks', [ProdukController::class, 'store'])->name('produks.store');
+    Route::get('/produks/{produk}', [ProdukController::class, 'show'])->name('produks.show');
+    Route::get('/produks/{produk}/edit', [ProdukController::class, 'edit'])->name('produks.edit');
+    Route::put('/produks/{produk}', [ProdukController::class, 'update'])->name('produks.update');
+    Route::delete('/produks/{produk}', [ProdukController::class, 'destroy'])->name('produks.destroy');
 
-// Legacy routes for backward compatibility (redirect to new structure)
-Route::get('/alatmakan', function () {
-    return view('user.alatmakan');
-});
+    // Customer Management
+    Route::get('/customers', function () {
+        return view('admin.customers.index');
+    })->name('customers.index');
 
-Route::get('/alatmandi', function () {
-    return view('user.alatmandi');
-});
+    // Order Management  
+    Route::get('/orders', function () {
+        return view('admin.orders.index');
+    })->name('orders.index');
 
-Route::get('/mainan', function () {
-    return view('user.mainan');
+    Route::get('/orders/payments', function () {
+        return view('admin.orders.payments');
+    })->name('orders.payments');
+
+    // Reports
+    Route::get('/reports', function () {
+        return view('admin.reports.index');
+    })->name('reports.index');
+
+    // Profile Management
+    Route::get('/profile', function () {
+        return view('admin.profile.show');
+    })->name('profile.show');
+    Route::put('/profile', function () {
+        // Profile update logic will be added later
+        return redirect()->route('admin.profile.show')->with('success', 'Profile updated successfully');
+    })->name('profile.update');
 });

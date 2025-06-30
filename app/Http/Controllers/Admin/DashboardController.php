@@ -16,7 +16,7 @@ class DashboardController extends Controller
             'totalKategori' => Kategori::count(),
             'totalProduk' => Produk::count(),
             'totalOrder' => Order::count(),
-            'totalCustomer' => User::where('role', 'user')->count(),
+            'totalCustomer' => User::where('role_id', 2)->count(), // role_id 2 = user
         ];
 
         return view('dashboard-admin', $data);

@@ -15,29 +15,24 @@ class LoginController extends Controller
     {
         return view('auth.login');
     }
-
     public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required|in:user,admin'
         ]);
 
         $credentials = $request->only('email', 'password');
 
-        if ($request->role === 'admin') {
-            // Login sebagai admin
-            $admin = Admin::where('email', $credentials['email'])->first();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-            if ($admin && Hash::check($credentials['password'], $admin->password)) {
-                Auth::guard('admin')->login($admin);
+            $user = Auth::user();
+
+            // Redirect berdasarkan role user
+            if ($user->isAdmin()) {
                 return redirect()->intended('/admin/dashboard');
-            }
-        } else {
-            // Login sebagai user
-            if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
+            } else {
                 return redirect()->intended('/');
             }
         }
@@ -49,11 +44,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        if (Auth::guard('admin')->check()) {
-            Auth::guard('admin')->logout();
-        } else {
-            Auth::logout();
-        }
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

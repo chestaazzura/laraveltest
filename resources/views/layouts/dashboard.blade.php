@@ -37,6 +37,7 @@
     </style>
 
     @stack('styles')
+    @yield('extra-css')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -92,9 +93,13 @@
             });
         });
     </script>
-    <script src="{{ asset('resources/js/ToastScript.js') }}"></script>
+
+    @if (file_exists(public_path('js/ToastScript.js')))
+        <script src="{{ asset('js/ToastScript.js') }}"></script>
+    @endif
 
     @stack('scripts')
+    @yield('extra-js')
 </body>
 
 </html>

@@ -115,7 +115,7 @@
 
             $('.delete-produk-btn').click(function() {
                 let produkId = $(this).data('produk-id');
-                let deleteUrl = "{{ route('admin.produks.destroy', ':id') }}".replace(':id', produkId);
+                let deleteUrl = "{{ url('admin/produks') }}/" + produkId;
                 $('#deleteForm').attr('action', deleteUrl);
             });
         });

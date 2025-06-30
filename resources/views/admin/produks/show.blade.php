@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
         body {
             font-family: 'Source Sans Pro', sans-serif !important;
         }
+
         .produk-img {
             width: 100%;
             max-width: 180px;
@@ -20,9 +22,11 @@
             border: 3px solid #dee2e6;
             border-radius: 10px;
         }
+
         .table th {
             background-color: #f8f9fa;
         }
+
         @media (max-width: 768px) {
             .card {
                 margin: 0 10px;
@@ -30,6 +34,7 @@
         }
     </style>
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         @include('include.navbarSistem')
@@ -55,8 +60,7 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="col-12 col-md-4 text-center mb-3">
-                                    <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('image/default-food.png') }}"
-                                         class="produk-img img-fluid rounded" alt="Foto Produk">
+                                    <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('image/default-food.png') }}" class="produk-img img-fluid rounded" alt="Foto Produk">
                                 </div>
                                 <div class="col-12 col-md-8">
                                     <div class="table-responsive">
@@ -95,7 +99,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <a href="{{ route('produks.index') }}" class="btn btn-secondary">
+                            <a href="{{ route('admin.produks.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </a>
                         </div>
@@ -113,4 +117,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 </body>
+
 </html>

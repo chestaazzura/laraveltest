@@ -65,13 +65,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('admin.orders.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Daftar Order</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('admin.orders.payments') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pembayaran</p>
                             </a>
@@ -81,7 +81,7 @@
 
                 <!-- Manajemen Customer -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.customers.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Manajemen Customer</p>
                     </a>
@@ -89,7 +89,7 @@
 
                 <!-- Laporan -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.reports.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-chart-bar"></i>
                         <p>Laporan</p>
                     </a>
@@ -100,7 +100,7 @@
 
                 <!-- Profile -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.profile.show') }}" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Profile</p>
                     </a>
@@ -108,7 +108,7 @@
 
                 <!-- Kembali ke Website -->
                 <li class="nav-item">
-                    <a href="{{ route('home.index') }}" class="nav-link" target="_blank">
+                    <a href="{{ route('home') }}" class="nav-link" target="_blank">
                         <i class="nav-icon fas fa-external-link-alt"></i>
                         <p>Lihat Website</p>
                     </a>

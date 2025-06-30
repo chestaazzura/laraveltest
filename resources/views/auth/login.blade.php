@@ -9,18 +9,6 @@
         @csrf
 
         <div>
-            <label for="role" class="block text-sm font-medium text-gray-700">Login sebagai</label>
-            <select id="role" name="role" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 @error('role') border-red-300 @enderror">
-                <option value="">Pilih Role</option>
-                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Pelanggan</option>
-                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-            </select>
-            @error('role')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
             <input id="email" name="email" type="email" autocomplete="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 @error('email') border-red-300 @enderror"
                 value="{{ old('email') }}" placeholder="Masukkan email Anda">

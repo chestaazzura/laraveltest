@@ -31,7 +31,7 @@
 
                 <!-- Nav Kategori di Kiri -->
                 <nav class="flex space-x-6 text-sm font-semibold text-gray-700">
-                    <a href="{{ route('home.index') }}" class="hover:text-blue-600">Home</a>
+                    <a href="{{ route('home') }}" class="hover:text-blue-600">Home</a>
 
                     <a href="{{ route('produks.index') }}" class="hover:text-blue-600">Pakaian</a>
                     <a href="alatmakan.index" class="hover:text-blue-600">Alat Makan</a>

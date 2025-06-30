@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
@@ -12,13 +13,13 @@ class ProdukController extends Controller
     public function index()
     {
         $produks = Produk::with('kategori')->paginate(12);
-        return view('produks.index', compact('produks'));
+        return view('admin.produks.index', compact('produks'));
     }
 
     public function create()
     {
         $kategoris = Kategori::all();
-        return view('produks.create', compact('kategoris'));
+        return view('admin.produks.create', compact('kategoris'));
     }
 
     public function store(Request $request)
@@ -43,18 +44,18 @@ class ProdukController extends Controller
 
         Produk::create($data);
 
-        return redirect()->route('produks.index')->with('success', 'Produk berhasil ditambahkan.');
+        return redirect()->route('admin.produks.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     public function show(Produk $produk)
     {
-        return view('produks.show', compact('produk'));
+        return view('admin.produks.show', compact('produk'));
     }
 
     public function edit(Produk $produk)
     {
         $kategoris = Kategori::all();
-        return view('produks.edit', compact('produk', 'kategoris'));
+        return view('admin.produks.edit', compact('produk', 'kategoris'));
     }
 
     public function update(Request $request, Produk $produk)
@@ -85,7 +86,7 @@ class ProdukController extends Controller
 
         $produk->update($data);
 
-        return redirect()->route('produks.index')->with('success', 'Produk berhasil diperbarui.');
+        return redirect()->route('admin.produks.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
     public function destroy(Produk $produk)
@@ -97,6 +98,6 @@ class ProdukController extends Controller
 
         $produk->delete();
 
-        return redirect()->route('produks.index')->with('success', 'Produk berhasil dihapus.');
+        return redirect()->route('admin.produks.index')->with('success', 'Produk berhasil dihapus.');
     }
 }
