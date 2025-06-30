@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->id(); // ID otomatis (primary key)
-            $table->string('id_produk')->unique(); // ID Produk manual (kode unik)
             $table->unsignedBigInteger('id_kategori'); // relasi ke kategori
             $table->string('nama_produk');
             $table->string('image_url');
@@ -26,10 +25,6 @@ return new class extends Migration
             // $table->foreign('id_kategori')->references('id')->on('kategoris');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('produks');

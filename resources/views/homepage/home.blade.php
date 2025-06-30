@@ -32,10 +32,10 @@
     
     <!-- Nav Kategori di Kiri -->
     <nav class="flex space-x-6 text-sm font-semibold text-gray-700">
-      <a href="{{ route('home') }}" class="hover:text-blue-600">Home</a>
+      <a href="{{ route('home.index') }}" class="hover:text-blue-600">Home</a>
 
       <a href="{{ route('produks.index') }}" class="hover:text-blue-600">Pakaian</a>
-      <a href="#alat-makan" class="hover:text-blue-600">Alat Makan</a>
+      <a href="alatmakan.index" class="hover:text-blue-600">Alat Makan</a>
       <a href="#alat-mandi" class="hover:text-blue-600">Alat Mandi</a>
       <a href="#mainan" class="hover:text-blue-600">Mainan</a>
     </nav>
@@ -66,27 +66,26 @@
   <h3 class="text-center text-xl font-semibold mb-6">Shop by category</h3>
   <div class="grid grid-cols-3 sm:grid-cols-6 gap-4 max-w-4xl mx-auto">
     @foreach ($categories as $cat)
-      <div class="bg-white rounded-xl p-4 flex flex-col items-center">
-        <img src="{{ asset($cat['image_url']) }}" alt="{{ $cat['nama_kategori'] }}" />
-        <span>{{ $cat['nama_kategori'] }}</span>
-      </div>
-    @endforeach
+    <div class="bg-white rounded-xl p-4 flex flex-col items-center">
+      <img src="{{ asset('storage/uploads/kategori/' . $cat['image_url']) }}" alt="{{ $cat['nama_kategori'] }}" class="w-20 h-20 object-cover rounded" />
+      <span>{{ $cat['nama_kategori'] }}</span>
+    </div>
+  @endforeach  
   </div>
 </section>
 
   <!-- Best seller -->
   <section class="py-8 px-4 flex-1 bg-gradient-to-b from-blue-200 to-blue-100">
-    <h3 class="text-center text-xl font-semibold mb-6">Best seller</h3>
+    <h3 class="text-center text-xl font-semibold mb-6">Recomendation</h3>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-5xl mx-auto">
       <!-- repeat per product -->
       @foreach ($products as $product)
       <div class="bg-blue-400 rounded-lg p-4 flex flex-col items-center">
-        <img src="{{$product['image_url']}}" alt="" class="mb-4 rounded" />
-        <h4 class="text-white mb-1">{{$product['nama_produk']}}</h4>
-        <p class="text-white font-semibold">Rp. {{number_format($product['harga'], 0, ',', '.')}}</p>
+        <img src="{{ asset('storage/uploads/produk/' . $product['image_url']) }}" alt="{{ $product['nama_produk'] }}" class="mb-4 rounded w-full h-40 object-cover" />
+        <h4 class="text-white mb-1">{{ $product['nama_produk'] }}</h4>
+        <p class="text-white font-semibold">Rp. {{ number_format($product['harga'], 0, ',', '.') }}</p>
       </div>
-      @endforeach
-     
+    @endforeach
     </div>
   </section>
 

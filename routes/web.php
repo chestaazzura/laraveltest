@@ -1,32 +1,42 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\HomeController;
-
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\Dashboard;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard.index');
 
+Route::prefix('kategori')->group(function () {
+    Route::get('/', [KategoriController::class, 'index'])->name('kategori.index');
+    Route::get('/create', [KategoriController::class, 'create'])->name('kategori.create');
+    Route::post('/', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::get('/{kategori}', [KategoriController::class, 'show'])->name('kategori.show');
+    Route::get('/{kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::put('/{kategori}', [KategoriController::class, 'update'])->name('kategori.update');
+    Route::delete('/{kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+});
+Route::prefix('produks')->group(function () {
+        Route::get('/', [ProdukController::class, 'index'])->name('produks.index');
+        Route::get('/create', [ProdukController::class, 'create'])->name('produks.create');
+        Route::post('/store', [ProdukController::class, 'store'])->name('produks.store');
+        Route::get('/{produk}', [ProdukController::class, 'show'])->name('produks.show');
+        Route::get('/{produk}/edit', [ProdukController::class, 'edit'])->name('produks.edit');
+        Route::put('/{produk}', [ProdukController::class, 'update'])->name('produks.update');
+        Route::delete('/{produk}', [ProdukController::class, 'destroy'])->name('produks.destroy');
+});
 
-// Kategori Routes
-Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
-Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
-Route::get('/kategori/{kategori}', [KategoriController::class, 'show'])->name('kategori.show');
-Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-Route::put('/kategori/{kategori}', [KategoriController::class, 'update'])->name('kategori.update');
-Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-
-// Produk Routes
-Route::get('/produks', [ProdukController::class, 'index'])->name('produks.index');
-Route::get('/produks/create', [ProdukController::class, 'create'])->name('produks.create');
-Route::post('/produks', [ProdukController::class, 'store'])->name('produks.store');
-Route::get('/produks/{produk}', [ProdukController::class, 'show'])->name('produks.show');
-Route::get('/produks/{produk}/edit', [ProdukController::class, 'edit'])->name('produks.edit');
-Route::put('/produks/{produk}', [ProdukController::class, 'update'])->name('produks.update');
-Route::delete('/produks/{produk}', [ProdukController::class, 'destroy'])->name('produks.destroy');
+Route::prefix('admin')->group(function () {
+    Route::get('login-admin')->name('login-admin');
+    Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard.index');
+    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+});
+Route::prefix('pengguna')->group(function () {
+    Route::get('login-pengguna')->name('login-pengguna');
+    
+});
 
 
 Route::get('/alatmakan', function () {
