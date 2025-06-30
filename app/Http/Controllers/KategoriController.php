@@ -1,64 +1,86 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Kategori;
+use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
+    // Tampilkan semua kategori
     public function index()
     {
         $kategoris = Kategori::all();
         return view('kategori.index', compact('kategoris'));
     }
 
+    // Form tambah kategori
     public function create()
     {
         return view('kategori.create');
     }
 
+    // Simpan kategori baru
     public function store(Request $request)
     {
-        $request->validate([
-            'id_kategori'    => 'required|unique:kategoris,id_kategori',
-            'nama_kategori'  => 'required',
-            // validasi tambahan jika perlu
-        ]);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('kategori', 'public');
+            $data['image_url'] = $imagePath;
+        }
 
-        Kategori::create($request->only([
-            'id_kategori', 'nama_kategori', 'deskripsi', 'image_url'
-        ]));
+        Kategori::createKategori($request->only('nama_kategori', 'deskripsi', 'image_url'));
 
-        return redirect()->route('kategori.index')->with('success','Kategori berhasil dibuat.');
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
 
-    public function show(Kategori $kategori)
+    // Form edit kategori
+    public function edit($id)
     {
-        return view('kategori.show', compact('kategori'));
-    }
-
-    public function edit(Kategori $kategori)
-    {
+        $kategori = Kategori::findOrFail($id);
         return view('kategori.edit', compact('kategori'));
     }
 
-    public function update(Request $request, Kategori $kategori)
+    // Update kategori
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'id_kategori'    => 'required|unique:kategoris,id_kategori,'.$kategori->id,
-            'nama_kategori'  => 'required',
+            'nama_kategori' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'image_url' => 'nullable|string',
         ]);
 
-        $kategori->update($request->only([
-            'id_kategori', 'nama_kategori', 'deskripsi', 'image_url'
-        ]));
+        $kategori = Kategori::findOrFail($id);
+        $kategori->updateKategori($request->only('nama_kategori', 'deskripsi', 'image_url'));
 
-        return redirect()->route('kategori.index')->with('success','Kategori berhasil diperbarui.');
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
-    public function destroy(Kategori $kategori)
+    // Hapus kategori
+    public function destroy($id)
     {
-        $kategori->delete();
-        return redirect()->route('kategori.index')->with('success','Kategori berhasil dihapus.');
+        $kategori = Kategori::findOrFail($id);
+        $kategori->deleteKategori();
+
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
+    }
+
+    // Optional: Toggle status (misalnya aktif/nonaktif)
+    public function toggleStatus($id)
+    {
+        try {
+            $kategori = Kategori::findOrFail($id);
+            $kategori->status = $kategori->status === 'aktif' ? 'nonaktif' : 'aktif';
+            $kategori->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Status kategori berhasil diperbarui.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui status.'
+            ], 500);
+        }
     }
 }

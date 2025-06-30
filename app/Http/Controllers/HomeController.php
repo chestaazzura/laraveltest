@@ -12,8 +12,7 @@ class HomeController extends Controller
        
         $categories = Kategori::all();
         $products = Produk::with('kategori')->get();
-        // dd($products); tambah ini
-        return view('home', compact('categories', 'products'));
-
+        // dd($products);
+        return view('homepage.home', compact('categories', 'products'));
     }
 }
