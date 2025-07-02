@@ -14,6 +14,6 @@ class HomeController extends Controller
         $kategoris = Kategori::all();
         $produks = Produk::with('kategori')->latest()->take(8)->get();
 
-        return view('user.home', compact('kategoris', 'produks'));
+        return view('home', compact('kategoris', 'produks'));
     }
 }

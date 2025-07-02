@@ -2,11 +2,17 @@
 
 @section('title', 'Produk - Baby Care Shop')
 
+<style>
+    body {
+        background: linear-gradient(to bottom, #00B4D8, #A2D2FF);
+    }
+</style>
+
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <!-- Search & Filter Section -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6">Produk Baby Care</h1>
+            --}}
 
             <form method="GET" action="{{ route('user.produks.index') }}" class="flex flex-col md:flex-row gap-4">
                 <div class="flex-1">
@@ -30,21 +36,19 @@
 
         <!-- Product Grid -->
         @if ($produks->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach ($produks as $produk)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <div class="aspect-w-1 aspect-h-1">
-                            <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('storage/img/BabyCare.png') }}" alt="{{ $produk->nama_produk }}" class="w-full h-48 object-cover">
+                    <div class="product-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                        <div class="overflow-hidden">
+                            <a href="{{ route('user.produks.show', $produk) }}">
+                                <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('img/auth_banner.png') }}" alt="{{ $produk->nama_produk }}" class="w-full h-40 object-cover transition-transform duration-300 hover:scale-105" />
+                            </a>
                         </div>
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $produk->nama_produk }}</h3>
-                            <p class="text-sm text-gray-500 mb-2">{{ $produk->kategori->nama_kategori }}</p>
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="text-xl font-bold text-blue-600">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
-                                <span class="text-sm text-gray-500">Stok: {{ $produk->stock }}</span>
-                            </div>
-                            <a href="{{ route('user.produks.show', $produk) }}" class="block w-full text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">
-                                Lihat Detail
+                        <div class="p-4 flex flex-col flex-grow">
+                            <h4 class="text-gray-800 text-base font-semibold mb-1 text-center">{{ $produk->nama_produk }}</h4>
+                            <p class="text-white font-bold text-lg text-center">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                            <a href="{{ route('user.produks.show', $produk) }}" class="mt-auto bg-whites  text-white text-sm font-medium px-4 py-2 rounded-lg text-center hover:bg-pink-600 transition-colors">
+                                <i class="fas fa-eye mr-1"></i> Lihat Detail
                             </a>
                         </div>
                     </div>

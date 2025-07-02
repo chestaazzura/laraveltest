@@ -2,11 +2,24 @@
 
 @section('title', $kategori->nama_kategori . ' - Baby Care Shop')
 
+@push('styles')
+    <style>
+        .product-card {
+            background-color: #0077B6;
+            color: white;
+        }
+
+        .product-card h4 {
+            color: white;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <!-- Breadcrumb -->
         <nav class="mb-8">
-            <ol class="flex items-center space-x-2 text-sm text-gray-500">
+            <ol class="flex items-center space-x-2 text-sm text-gray-700">
                 <li><a href="{{ route('home') }}" class="hover:text-blue-600">Home</a></li>
                 <li><i class="fas fa-chevron-right text-xs"></i></li>
                 <li><a href="{{ route('user.produks.index') }}" class="hover:text-blue-600">Produk</a></li>
@@ -28,38 +41,21 @@
             </div>
         </div>
 
-        <!-- Category Navigation -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Kategori Lainnya</h2>
-            <div class="flex flex-wrap gap-2">
-                <a href="{{ route('user.produks.index') }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300">
-                    Semua Produk
-                </a>
-                @foreach ($kategoris as $kat)
-                    <a href="{{ route('user.produks.category', $kat) }}" class="px-4 py-2 rounded-lg transition duration-300 {{ $kat->id == $kategori->id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-                        {{ $kat->nama_kategori }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
-
         <!-- Product Grid -->
         @if ($produks->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach ($produks as $produk)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <div class="aspect-w-1 aspect-h-1">
-                            <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('storage/img/BabyCare.png') }}" alt="{{ $produk->nama_produk }}" class="w-full h-48 object-cover">
+                    <div class="product-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                        <div class="overflow-hidden">
+                            <a href="{{ route('user.produks.show', $produk) }}">
+                                <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('img/auth_banner.png') }}" alt="{{ $produk->nama_produk }}" class="w-full h-40 object-cover transition-transform duration-300 hover:scale-105" />
+                            </a>
                         </div>
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $produk->nama_produk }}</h3>
-                            <p class="text-sm text-gray-500 mb-2">{{ $produk->kategori->nama_kategori }}</p>
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="text-xl font-bold text-blue-600">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
-                                <span class="text-sm text-gray-500">Stok: {{ $produk->stock }}</span>
-                            </div>
-                            <a href="{{ route('user.produks.show', $produk) }}" class="block w-full text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">
-                                Lihat Detail
+                        <div class="p-4 flex flex-col flex-grow">
+                            <h4 class="text-gray-800 text-base font-semibold mb-1 text-center">{{ $produk->nama_produk }}</h4>
+                            <p class="text-white font-bold text-lg text-center">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                            <a href="{{ route('user.produks.show', $produk) }}" class="mt-auto bg-whites text-white text-sm font-medium px-4 py-2 rounded-lg text-center hover:bg-pink-600 transition-colors">
+                                <i class="fas fa-eye mr-1"></i> Lihat Detail
                             </a>
                         </div>
                     </div>
@@ -67,8 +63,8 @@
             </div>
 
             <!-- Pagination -->
-            <div class="mt-8">
-                {{ $produks->links() }}
+            <div class="mt-8 text-center">
+                {{ $produks->appends(request()->query())->links() }}
             </div>
         @else
             <div class="text-center py-12">

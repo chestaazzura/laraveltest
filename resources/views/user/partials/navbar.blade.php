@@ -20,17 +20,32 @@
         <!-- Nav dan Icon Bar dalam satu baris -->
         <div class="container mx-auto flex justify-between items-center py-2 px-4">
 
-            <!-- Nav Kategori di Kiri -->
             <nav class="flex space-x-6 text-sm font-semibold text-gray-700">
-                <a href="{{ route('home') }}" class="hover:text-blue-600 {{ request()->routeIs('home') ? 'text-blue-600' : '' }}">Home</a>
-                <a href="{{ route('user.produks.index') }}" class="hover:text-blue-600 {{ request()->routeIs('user.produks.*') ? 'text-blue-600' : '' }}">Semua Produk</a>
-                @php
-                    $kategoris = \App\Models\Kategori::all();
-                @endphp
-                @foreach ($kategoris as $kategori)
-                    <a href="{{ route('user.produks.category', $kategori) }}" class="hover:text-blue-600">{{ $kategori->nama_kategori }}</a>
+                <a href="{{ route('home') }}" class="hover:text-blue-600 {{ request()->routeIs('home') ? 'text-blue-600' : '' }}">Beranda</a>
+                <a href="{{ route('user.produks.index') }}" class="hover:text-blue-600 {{ request()->routeIs('user.produks.index') ? 'text-blue-600' : '' }}">Semua Produk</a>
+
+                @foreach ($kategoriGroups as $group => $kategoris)
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center space-x-1 hover:text-blue-600 focus:outline-none">
+                            <span>{{ ucfirst($group) }}</span>
+                            <svg :class="{ 'rotate-180': open }" class="w-3 h-3 mt-[1px] text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="absolute left-0 bg-white shadow-md mt-2 rounded z-10 min-w-[160px]" x-cloak>
+                            @foreach ($kategoris as $kategori)
+                                <a href="{{ route('user.produks.category', $kategori) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">
+                                    {{ $kategori->nama_kategori }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 @endforeach
+
+
             </nav>
+
+
 
             <!-- Icon di Kanan -->
             <div class="flex items-center space-x-4">

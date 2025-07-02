@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('kode_produk')->unique(); // Kode unik produk (PRD001, PRD002, etc)
             $table->unsignedBigInteger('id_kategori'); // relasi ke kategori
             $table->string('nama_produk');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->text('deskripsi')->nullable();
             $table->decimal('harga', 10, 2);
             $table->integer('stock');

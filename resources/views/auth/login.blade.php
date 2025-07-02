@@ -1,82 +1,57 @@
-@extends('layouts.auth')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Login')
-@section('auth-title', 'Masuk ke Akun Anda')
-@section('auth-subtitle', 'Selamat datang kembali!')
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BabyCare Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
 
-@section('content')
-    <form method="POST" action="{{ route('login') }}" class="space-y-6">
-        @csrf
-
-        <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 @error('email') border-red-300 @enderror"
-                value="{{ old('email') }}" placeholder="Masukkan email Anda">
-            @error('email')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-            @enderror
+<body class="h-screen w-screen bg-gray-100 flex items-center justify-center">
+    <div class="w-[900px] h-[550px] bg-white shadow-lg rounded-lg flex overflow-hidden">
+        <!-- Left Section -->
+        <div class="w-1/2 relative">
+            <img src="{{ asset('img/auth_banner.png') }}" alt="Family" class="w-full h-full object-cover" />
+            <div class="absolute top-4 left-4 text-white text-3xl font-bold drop-shadow-md">BabyCare</div>
         </div>
 
-        <div>
-            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-            <div class="mt-1 relative">
-                <input id="password" name="password" type="password" autocomplete="current-password" required
-                    class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 @error('password') border-red-300 @enderror" placeholder="Masukkan password Anda">
-                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" onclick="togglePassword()">
-                    <i class="fas fa-eye text-gray-400" id="toggleIcon"></i>
-                </button>
+        <!-- Right Section -->
+        <div class="w-1/2 flex flex-col justify-center p-8">
+            <div class="w-full max-w-xs mx-auto">
+
+                <div class="mb-4">
+                    <a href="{{ route('home') }}" class="text-sm text-gray-500 hover:text-blue-600 inline-flex items-center">
+                        <i class="fas fa-arrow-left mr-1"></i> Kembali ke Beranda
+                    </a>
+                </div>
+
+                <!-- Title -->
+                <div class="flex items-center text-blue-600 text-xl font-semibold mb-6">
+                    <i class="fas fa-user-circle mr-2"></i>
+                    <span>Welcome</span>
+                </div>
+
+                <!-- Form -->
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="mb-4">
+                        <input type="email" name="email" placeholder="Masukkan Nama Email..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div class="mb-6">
+                        <input type="password" name="password" placeholder="Masukkan Password..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div class="flex justify-between">
+                        <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-2 px-6 rounded-md">Login</button>
+                        <a href="{{ route('register') }}" class="bg-rose-500 hover:bg-rose-600 text-white font-medium py-2 px-6 rounded-md flex items-center justify-center">Register</a>
+                    </div>
+                </form>
             </div>
-            @error('password')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-            @enderror
         </div>
 
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                <label for="remember" class="ml-2 block text-sm text-gray-900">
-                    Ingat saya
-                </label>
-            </div>
 
-            <div class="text-sm">
-                <a href="" class="font-medium text-blue-600 hover:text-blue-500">
-                    Lupa password?
-                </a>
-            </div>
-        </div>
+    </div>
+</body>
 
-        <div>
-            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
-                <i class="fas fa-sign-in-alt mr-2"></i>
-                Masuk
-            </button>
-        </div>
-
-        <div class="text-center">
-            <p class="text-sm text-gray-600">
-                Belum punya akun?
-                <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:text-blue-500">
-                    Daftar sekarang
-                </a>
-            </p>
-        </div>
-    </form>
-
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const toggleIcon = document.getElementById('toggleIcon');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            }
-        }
-    </script>
-@endsection
+</html>

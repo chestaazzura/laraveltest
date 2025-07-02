@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nama_kategori');
             $table->text('deskripsi')->nullable();
             $table->string('image_url')->nullable(); // URL gambar kategori
+            $table->string('group')->nullable();
+
             $table->timestamps(); // created_at & updated_at
         });
     }

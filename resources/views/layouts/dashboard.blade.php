@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard') || Baby Care Shop</title>
-    <link rel="icon" type="image/png" href="{{ asset('storage/img/BabyCare.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/BabyCare.png') }}">
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
