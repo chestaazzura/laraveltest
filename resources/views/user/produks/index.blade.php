@@ -11,9 +11,7 @@
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <!-- Search & Filter Section -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            --}}
-
+        {{-- <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <form method="GET" action="{{ route('user.produks.index') }}" class="flex flex-col md:flex-row gap-4">
                 <div class="flex-1">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -32,7 +30,7 @@
                     <i class="fas fa-search mr-2"></i>Cari
                 </button>
             </form>
-        </div>
+        </div> --}}
 
         <!-- Product Grid -->
         @if ($produks->count() > 0)

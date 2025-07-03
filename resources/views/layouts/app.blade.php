@@ -58,7 +58,7 @@
     @stack('styles')
 </head>
 
-<body class="bg-gray-50 min-h-screen flex flex-col">
+<body class="bg-gray-50 min-h-screen flex flex-col" id="mainBody">
     @include('user.partials.navbar')
 
     <!-- Main Content -->
@@ -68,8 +68,31 @@
 
     @include('user.partials.footer')
     @include('services.ToastModalUser')
+    @include('user.partials.cart')
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Toggle side cart
+        $('#cartToggleBtn').on('click', function(e) {
+            e.preventDefault();
+            $('#sideCart').show().removeClass('translate-x-full').addClass('translate-x-0');
+            $('#cartOverlay').show();
+        });
+        $('#closeCartBtn, #cartOverlay').on('click', function() {
+            $('#sideCart').addClass('translate-x-full').removeClass('translate-x-0');
+            setTimeout(function() {
+                $('#sideCart').hide();
+            }, 300);
+            $('#cartOverlay').hide();
+        });
+        // Optional: close with ESC
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape') {
+                $('#closeCartBtn').click();
+            }
+        });
+    </script>
     <!-- JavaScript -->
     <script>
         // Mobile menu toggle

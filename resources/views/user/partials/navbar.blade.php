@@ -4,14 +4,14 @@
     <div class="container mx-auto flex justify-between items-center py-2 px-4">
         <!-- Logo -->
         <a href="{{ route('home') }}">
-            <img src="{{ asset('storage/img/BabyCare.png') }}" alt="BabyCare Logo" class="h-10">
+            <img src="{{ asset('img/BabyCare.png') }}" alt="BabyCare Logo" class="h-10">
         </a>
 
         <!-- Grup ID + Contact Us dalam satu flex container -->
         <div class="flex items-center space-x-4">
-            <img src="{{ asset('storage/img/language.png') }}" alt="Bahasa" width="40">
+            <img src="{{ asset('img/language.png') }}" alt="Bahasa" width="40">
             <a href="https://wa.me/6283119343746" class="flex items-center space-x-2 hover:underline" target="_blank">
-                <img src="{{ asset('storage/img/contact.png') }}" alt="Chat via WhatsApp" width="100">
+                <img src="{{ asset('img/contact.png') }}" alt="Chat via WhatsApp" width="100">
             </a>
         </div>
     </div>
@@ -41,32 +41,33 @@
                         </div>
                     </div>
                 @endforeach
-
-
             </nav>
-
 
 
             <!-- Icon di Kanan -->
             <div class="flex items-center space-x-4">
                 <button aria-label="Search" onclick="toggleSearch()">
-                    <img src="{{ asset('storage/img/Search.png') }}" alt="Search" width="40">
+                    <img src="{{ asset('img/Search.png') }}" alt="Search" width="40">
                 </button>
-                <button aria-label="Location">
-                    <img src="{{ asset('storage/img/Location.png') }}" alt="Location" width="40">
-                </button>
-                <a href="#" class="relative">
-                    <img src="{{ asset('storage/img/Cart.png') }}" alt="Cart" width="40">
+                {{-- <button aria-label="Location">
+                    <img src="{{ asset('img/Location.png') }}" alt="Location" width="40">
+                </button> --}}
+                <a href="#" id="cartToggleBtn" class="relative p-1 rounded-lg hover:bg-gray-200 hover:shadow-md transition-all duration-200 transform hover:scale-105">
+                    <img src="{{ asset('img/Cart.png') }}" alt="Cart" width="40">
                     <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
                 </a>
 
                 @auth
-                    <div class="relative group">
-                        <button class="flex items-center space-x-2">
-                            <img src="{{ asset('storage/img/User.png') }}" alt="User" width="40">
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center space-x-2 focus:outline-none">
+                            @if (Auth::user()->profile_picture)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="User" class="w-10 h-10 rounded-full object-cover">
+                            @else
+                                <img src="{{ asset('img/User.png') }}" alt="User" class="w-10 h-10 rounded-full object-cover">
+                            @endif
                             <span class="text-gray-700 text-sm">{{ Auth::user()->name }}</span>
                         </button>
-                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                        <div x-show="open" @click.away="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Order History</a>
                             <div class="border-t border-gray-100"></div>
@@ -80,10 +81,11 @@
                     </div>
                 @else
                     <a href="{{ route('login') }}" class="flex items-center space-x-2 hover:opacity-80">
-                        <img src="{{ asset('storage/img/User.png') }}" alt="User" width="40">
+                        <img src="{{ asset('img/User.png') }}" alt="User" width="40">
                         <span class="text-gray-700 text-sm">Login</span>
                     </a>
                 @endauth
+                    
             </div>
         </div>
     </div>

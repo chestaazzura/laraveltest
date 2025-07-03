@@ -2,7 +2,7 @@
 
 @section('title', 'Home - Baby Care Shop')
 
-<style>
+{{-- <style>
     body {
         background: linear-gradient(to bottom, #00B4D8, #A2D2FF);
     }
@@ -15,7 +15,7 @@
     .product-card h4 {
         color: white;
     }
-</style>
+</style> --}}
 
 
 @section('content')
