@@ -38,9 +38,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="7" class="text-center">Belum ada data order</td>
-                                </tr>
+                                
+                                @forelse($orders as $order)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $order->id_order }}</td>
+                                        <td>{{ $order->pelanggan->nama ?? '-' }}</td>
+                                        <td>Rp{{ number_format($order->total_price, 0, ',', '.') }}</td>
+                                        <td>{{ ucfirst($order->status) }}</td>
+                                        <td>{{ $order->tanggal_pesanan }}</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center">Belum ada data order</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

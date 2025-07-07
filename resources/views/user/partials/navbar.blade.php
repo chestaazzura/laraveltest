@@ -52,10 +52,20 @@
                 {{-- <button aria-label="Location">
                     <img src="{{ asset('img/Location.png') }}" alt="Location" width="40">
                 </button> --}}
-                <a href="#" id="cartToggleBtn" class="relative p-1 rounded-lg hover:bg-gray-200 hover:shadow-md transition-all duration-200 transform hover:scale-105">
+                @php
+                    $cart = session('cart', []);
+                    // Hitung jumlah item unik (bukan total qty)
+                    $cartCount = count($cart);
+                @endphp
+
+                <!-- Cart Icon Button -->
+                <button id="cartToggleBtn" type="button" class="relative p-1 rounded-lg hover:bg-gray-200 hover:shadow-md transition-all duration-200 transform hover:scale-105" aria-label="Keranjang">
                     <img src="{{ asset('img/Cart.png') }}" alt="Cart" width="40">
-                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                </a>
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {{ $cartCount }}
+                    </span>
+                </button>
+
 
                 @auth
                     <div class="relative" x-data="{ open: false }">
@@ -85,7 +95,7 @@
                         <span class="text-gray-700 text-sm">Login</span>
                     </a>
                 @endauth
-                    
+
             </div>
         </div>
     </div>

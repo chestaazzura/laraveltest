@@ -40,9 +40,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="9" class="text-center">Belum ada data pembayaran</td>
-                                </tr>
+                                @forelse($payments as $payment)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $payment->id_pembayaran }}</td>
+                                        <td>{{ $payment->order->id_order ?? '-' }}</td>
+                                        <td>{{ $payment->order->pelanggan->nama ?? '-' }}</td>
+                                        <td>Rp{{ number_format($payment->order->total_price ?? 0, 0, ',', '.') }}</td>
+                                        <td>{{ ucfirst($payment->payment_method) }}</td>
+                                        <td>{{ ucfirst($payment->payment_status) }}</td>
+                                        <td>{{ $payment->created_at }}</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center">Belum ada data pembayaran</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

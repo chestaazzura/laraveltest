@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\User\ProdukController as UserProdukController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 
@@ -18,11 +20,20 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/produks/{produk}', [UserProdukController::class, 'show'])->name('produks.show');
     Route::get('/produks/category/{kategori}', [UserProdukController::class, 'byCategory'])->name('produks.category');
 });
-
+Route::post('/cart/add/{produk}', [CartController::class, 'add'])->name('cart.add');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::post('/checkout/buynow/{produk}', [CartController::class, 'buyNow'])->name('checkout.buynow');
+Route::post('/checkout/process', [CartController::class, 'processCheckout'])->name('checkout.process');
 // Admin Routes (Protected)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+    // Order Management  
+    // Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    // Route::get('/orders/payments', [OrderController::class, 'payments'])->name('orders.payments');
+    Route::get('/orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/payments', [\App\Http\Controllers\Admin\OrderController::class, 'payments'])->name('orders.payments');
     // Kategori Management
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
     Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
@@ -46,14 +57,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         return view('admin.customers.index');
     })->name('customers.index');
 
-    // Order Management  
-    Route::get('/orders', function () {
-        return view('admin.orders.index');
-    })->name('orders.index');
 
-    Route::get('/orders/payments', function () {
-        return view('admin.orders.payments');
-    })->name('orders.payments');
 
     // Reports
     Route::get('/reports', function () {

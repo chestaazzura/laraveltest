@@ -12,15 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id(); // ID auto increment (primary key)
-            $table->string('id_order')->unique(); // Kode unik pesanan (contoh: ORD001)
-            $table->unsignedBigInteger('id_pelanggan'); // FK ke tabel pelanggan (opsional)
-            $table->decimal('total_price', 10, 2); // Total harga pesanan
-            $table->enum('status', ['pending', 'dibayar', 'dikirim', 'selesai', 'batal'])->default('pending'); // Status pesanan
+            $table->id(); // Primary key
+            $table->string('id_order')->unique(); // Kode order unik (manual)
+            $table->unsignedBigInteger('id_pelanggan')->nullable(); // Relasi ke tabel pelanggan (nullable untuk guest checkout)
+            $table->decimal('total_price', 12, 2);
+            $table->string('status')->default('pending');
+            $table->string('alamat_pengiriman', 500);
+            $table->string('no_resi')->nullable();
+            $table->dateTime('tanggal_pesanan');
+            $table->dateTime('tanggal_dikirim')->nullable();
+            $table->string('metode_pembayaran');
             $table->timestamps();
-
-            // Foreign key ke tabel pelanggans
-            $table->foreign('id_pelanggan')->references('id')->on('pelanggans')->onDelete('cascade');
+            // Foreign key opsional (aktifkan jika tabel pelanggans tersedia)
+            // $table->foreign('id_pelanggan')->references('id')->on('pelanggans')->onDelete('set null');
         });
     }
 

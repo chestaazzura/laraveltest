@@ -1,24 +1,27 @@
 <?php
-// app/Models/Pembayaran.php
+// app/Models/OrderItem.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pembayaran extends Model
+class OrderItem extends Model
 {
     use HasFactory;
-    protected $table = 'pembayarans';
+    protected $table = 'order_items';
     protected $fillable = [
-        'id_pembayaran',
         'id_order',
-        'payment_method',
-        'payment_status',
-        'payment_date'
+        'id_produk',
+        'quantity',
+        'harga'
     ];
 
     public function order()
     {
         return $this->belongsTo(Order::class, 'id_order');
+    }
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id_produk');
     }
 }
