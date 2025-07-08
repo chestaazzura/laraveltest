@@ -65,13 +65,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.orders.index') }}" class="nav-link">
+                            <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Daftar Order</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.orders.payments') }}" class="nav-link">
+                            <a href="{{ route('admin.orders.payments') }}" class="nav-link {{ request()->routeIs('admin.orders.payments') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pembayaran</p>
                             </a>

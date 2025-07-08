@@ -41,7 +41,10 @@ class ProdukController extends Controller
             $file->storeAs('public/uploads/produk', $filename);
             $data['image_url'] = $filename;
         }
-
+        // Generate kode_produk unik (misal: PRD001, PRD002, dst)
+        $lastProduk = Produk::orderByDesc('id')->first();
+        $nextNumber = $lastProduk ? ((int)substr($lastProduk->kode_produk, 3)) + 1 : 1;
+        $data['kode_produk'] = 'PRD' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
         Produk::create($data);
 
         return redirect()->route('admin.produks.index')->with('success', 'Produk berhasil ditambahkan.');

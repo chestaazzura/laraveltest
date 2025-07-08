@@ -57,8 +57,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         return view('admin.customers.index');
     })->name('customers.index');
 
-
-
     // Reports
     Route::get('/reports', function () {
         return view('admin.reports.index');
@@ -72,4 +70,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         // Profile update logic will be added later
         return redirect()->route('admin.profile.show')->with('success', 'Profile updated successfully');
     })->name('profile.update');
+    // Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    // Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    // Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    // Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
