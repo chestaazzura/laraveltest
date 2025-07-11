@@ -51,7 +51,11 @@
                                         <td>{{ ucfirst($payment->payment_status) }}</td>
                                         <td>{{ $payment->created_at }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                            @if ($payment->order)
+                                                <a href="{{ route('admin.payments.show', $payment->order) }}" class="btn btn-sm btn-info">Detail</a>
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

@@ -38,7 +38,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
                                 @forelse($orders as $order)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -48,7 +47,7 @@
                                         <td>{{ ucfirst($order->status) }}</td>
                                         <td>{{ $order->tanggal_pesanan }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                            <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-sm btn-info">Detail</a>
                                         </td>
                                     </tr>
                                 @empty

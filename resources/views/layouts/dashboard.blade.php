@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Dashboard') || Baby Care Shop</title>
+    <title>@yield('title', 'Dashboard') || Baby Care Shop</title>
     <link rel="icon" type="image/png" href="{{ asset('img/BabyCare.png') }}">
 
     <!-- CSS -->
@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- Custom CSS -->
     <style>
         body {
             font-family: 'Source Sans Pro', sans-serif !important;
@@ -44,8 +43,13 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
+        {{-- Navbar & Sidebar sesuai role --}}
         @include('admin.partials.navbar')
-        @include('admin.partials.sidebar')
+        @if (Auth::user()->role->name === 'admin')
+            @include('admin.partials.sidebar')
+        @elseif (Auth::user()->role->name === 'user')
+            @include('user.partials.sidebar')
+        @endif
 
         <!-- Content Wrapper -->
         <div class="content-wrapper">
@@ -53,7 +57,6 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 @yield('breadcrumb')
@@ -86,7 +89,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Aktifkan treeview dropdown
             $('[data-widget="treeview"]').each(function() {
                 AdminLTE.Treeview._jQueryInterface.call($(this));
             });

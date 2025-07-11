@@ -5,9 +5,12 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\ProdukController as UserProdukController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
+use Faker\Provider\Payment;
 
 // Authentication Routes
 require __DIR__ . '/auth.php';
@@ -19,7 +22,11 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/produks', [UserProdukController::class, 'index'])->name('produks.index');
     Route::get('/produks/{produk}', [UserProdukController::class, 'show'])->name('produks.show');
     Route::get('/produks/category/{kategori}', [UserProdukController::class, 'byCategory'])->name('produks.category');
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::get('/orders', [AuthController::class, 'orderHistory'])->name('orders');
 });
+
 Route::post('/cart/add/{produk}', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
@@ -34,6 +41,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     // Route::get('/orders/payments', [OrderController::class, 'payments'])->name('orders.payments');
     Route::get('/orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/payments', [\App\Http\Controllers\Admin\OrderController::class, 'payments'])->name('orders.payments');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/payments/{pembayaran}', [PaymentController::class, 'show'])->name('payments.show');
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::patch('/payments/{pembayaran}/status', [PaymentController::class, 'updateStatus'])->name('payments.updateStatus');
     // Kategori Management
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
     Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
@@ -52,15 +63,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/produks/{produk}', [ProdukController::class, 'update'])->name('produks.update');
     Route::delete('/produks/{produk}', [ProdukController::class, 'destroy'])->name('produks.destroy');
 
-    // Customer Management
-    Route::get('/customers', function () {
-        return view('admin.customers.index');
-    })->name('customers.index');
-
+    Route::get('/customers', [\App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('customers.index');
     // Reports
-    Route::get('/reports', function () {
-        return view('admin.reports.index');
-    })->name('reports.index');
+    // Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
 
     // Profile Management
     Route::get('/profile', function () {

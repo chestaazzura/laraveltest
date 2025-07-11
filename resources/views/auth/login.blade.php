@@ -37,10 +37,10 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-4">
-                        <input type="email" name="email" placeholder="Masukkan Nama Email..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                        <input type="email" name="email" placeholder="Masukkan Nama Email..." required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
                     </div>
                     <div class="mb-6">
-                        <input type="password" name="password" placeholder="Masukkan Password..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                        <input type="password" name="password" placeholder="Masukkan Password..." required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
                     </div>
                     <div class="flex justify-between">
                         <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-2 px-6 rounded-md">Login</button>

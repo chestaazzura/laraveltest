@@ -37,9 +37,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="6" class="text-center">Belum ada data customer</td>
-                                </tr>
+                                @forelse($customers as $customer)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $customer->name }}</td>
+                                        <td>{{ $customer->email }}</td>
+                                        <td>{{ $customer->created_at->format('d-m-Y') }}</td>
+                                        <td>
+                                            @if ($customer->status ?? false)
+                                                <span class="badge badge-success">Aktif</span>
+                                            @else
+                                                <span class="badge badge-secondary">Nonaktif</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">Belum ada data customer</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

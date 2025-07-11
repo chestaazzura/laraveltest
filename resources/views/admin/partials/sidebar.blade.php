@@ -88,12 +88,12 @@
                 </li>
 
                 <!-- Laporan -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('admin.reports.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-chart-bar"></i>
                         <p>Laporan</p>
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- Separator -->
                 <li class="nav-header">PENGATURAN</li>
@@ -108,9 +108,9 @@
 
                 <!-- Kembali ke Website -->
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link" target="_blank">
+                    <a href="{{ route('home') }}" class="nav-link" s>
                         <i class="nav-icon fas fa-external-link-alt"></i>
-                        <p>Lihat Website</p>
+                        <p>Kembali ke Beranda</p>
                     </a>
                 </li>
             </ul>

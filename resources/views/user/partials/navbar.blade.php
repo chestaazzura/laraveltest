@@ -77,9 +77,18 @@
                             @endif
                             <span class="text-gray-700 text-sm">{{ Auth::user()->name }}</span>
                         </button>
+                        {{-- @dd(Auth::user()->role) --}}
                         <div x-show="open" @click.away="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Order History</a>
+                            @if (Auth::user()->role->name === 'user')
+                                <a href="{{ route('user.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="{{ route('user.orders') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Order History</a>
+                                {{-- <a href="{{ route('user.settings') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Setting</a> --}}
+                            @elseif(Auth::user()->role->name === 'admin')
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                                <a href="{{ route('admin.profile.show') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                {{-- <a href="{{ route('admin.settings') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Setting</a> --}}
+                            @endif
+
                             <div class="border-t border-gray-100"></div>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 Logout
@@ -88,6 +97,7 @@
                                 @csrf
                             </form>
                         </div>
+
                     </div>
                 @else
                     <a href="{{ route('login') }}" class="flex items-center space-x-2 hover:opacity-80">
@@ -102,19 +112,19 @@
 </header>
 
 <!-- Search Modal -->
-<div id="searchModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+<div id="searchModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden transition-opacity duration-300 ease-in-out" onclick="toggleSearch(event)">
+    <div class="flex items-center justify-center min-h-screen p-4" onclick="event.stopPropagation()">
+        <div id="searchContent" class="bg-white rounded-2xl p-6 w-full max-w-md shadow-lg transform scale-95 opacity-0 transition duration-300 ease-in-out">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold">Cari Produk</h3>
-                <button onclick="toggleSearch()" class="text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-times"></i>
+                <h3 class="text-lg font-bold text-gray-800">🔍 Cari Produk</h3>
+                <button onclick="toggleSearch()" class="text-gray-500 hover:text-gray-700 text-xl">
+                    &times;
                 </button>
             </div>
             <form action="{{ route('user.produks.index') }}" method="GET">
                 <div class="flex space-x-2">
-                    <input type="text" name="search" placeholder="Masukkan nama produk..." class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                    <input type="text" id="searchInput" name="search" placeholder="Masukkan nama produk..." class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition duration-200">
+                    <button type="submit" class="px-5 py-2 rounded-full bg-blue-500 text-white font-medium hover:bg-blue-600 shadow-md transition duration-200">
                         Cari
                     </button>
                 </div>
@@ -123,9 +133,25 @@
     </div>
 </div>
 
+
 <script>
     function toggleSearch() {
         const modal = document.getElementById('searchModal');
-        modal.classList.toggle('hidden');
+        const content = document.getElementById('searchContent');
+        const isHidden = modal.classList.contains('hidden');
+        if (isHidden) {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('opacity-0', 'scale-95');
+                a
+                content.classList.add('opacity-100', 'scale-100');
+            }, 10);
+        } else {
+            content.classList.remove('opacity-100', 'scale-100');
+            content.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // tunggu animasi selesai
+        }
     }
 </script>
