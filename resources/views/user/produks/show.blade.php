@@ -63,18 +63,16 @@
                                 <label for="quantity" class="text-gray-700">Jumlah:</label>
                                 <input type="number" name="qty" id="quantity" value="1" min="1" max="{{ $produk->stock }}" class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
-                                    <i class="fas fa-shopping-cart mr-2"></i>Tambah ke Keranjang
-                                </button>
-                                <form action="{{ route('checkout.buynow', $produk->id) }}" method="POST" id="buyNowForm">
-                                    @csrf
-                                    <input type="hidden" name="qty" id="buyNowQty" value="1">
-                                    <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
-                                        <i class="fa-solid fa-money-bill-wave mr-2"></i>Beli Sekarang
-                                    </button>
-                                </form>
-                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition mt-2">
+                                <i class="fas fa-shopping-cart mr-2"></i>Tambah ke Keranjang
+                            </button>
+                        </form>
+                        <form action="{{ route('checkout.buynow', $produk->id) }}" method="POST" id="buyNowForm" class="mt-3">
+                            @csrf
+                            <input type="hidden" name="qty" id="buyNowQty" value="1">
+                            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
+                                <i class="fa-solid fa-money-bill-wave mr-2"></i>Beli Sekarang
+                            </button>
                         </form>
                         <script>
                             document.getElementById('quantity').addEventListener('input', function() {

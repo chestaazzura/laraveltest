@@ -46,7 +46,7 @@
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-12 col-md-4 text-center mb-3">
-                            <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('image/default-food.png') }}" class="produk-img img-fluid rounded" alt="Foto Produk">
+                            <img src="{{ $produk->image_url ? asset('storage/' . $produk->image_url) : asset('img/auth_banner.png') }}" class="produk-img img-fluid rounded" alt="Foto Produk">
                         </div>
                         <div class="col-12 col-md-8">
                             <div class="table-responsive">

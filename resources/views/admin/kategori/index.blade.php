@@ -32,6 +32,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Gambar</th>
                                     <th>Nama Kategori</th>
                                     <th>Deskripsi</th>
                                     <th>Aksi</th>
@@ -41,9 +42,19 @@
                                 @foreach ($kategoris as $index => $kategori)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
+                                        <td>
+                                            @if ($kategori->image_url)
+                                                <img src="{{ asset('storage/' . $kategori->image_url) }}" alt="{{ $kategori->nama_kategori }}" width="60" height="60" style="object-fit:cover; border-radius:6px;">
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $kategori->nama_kategori }}</td>
                                         <td>{{ $kategori->deskripsi ?? '-' }}</td>
                                         <td class="text-center">
+                                            <a href="{{ route('admin.kategori.show', $kategori->id) }}" class="btn btn-success btn-sm">
+                                                <i class="fas fa-eye"></i> Lihat
+                                            </a>
                                             <a href="{{ route('admin.kategori.edit', $kategori->id) }}" class="btn btn-info btn-sm">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>

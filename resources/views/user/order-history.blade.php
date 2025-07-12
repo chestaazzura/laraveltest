@@ -19,20 +19,20 @@
                         <th>Kode Pesanan</th>
                         <th>Tanggal</th>
                         <th>Status</th>
-                        <th>Total</th>
+                        <th>Total Harga</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($orders as $order)
                         <tr>
-                            <td>{{ $order->kode }}</td>
+                            <td>{{ $order->id_order }}</td>
                             <td>{{ $order->created_at->translatedFormat('d M Y') }}</td>
                             <td>
                                 <span class="badge badge-{{ $order->status === 'selesai' ? 'success' : 'warning' }}">
                                     {{ ucfirst($order->status) }}
                                 </span>
                             </td>
-                            <td>Rp{{ number_format($order->total, 0, ',', '.') }}</td>
+                            <td>Rp{{ number_format($order->total_price, 0, ',', '.') }}</td>
                         </tr>
                     @endforeach
                 </tbody>

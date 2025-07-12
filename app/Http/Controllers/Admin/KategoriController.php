@@ -31,8 +31,9 @@ class KategoriController extends Controller
         $data = $request->only('nama_kategori', 'deskripsi', 'image_url');
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads/kategori', 'public');
-            $data['image_url'] = $imagePath;
+            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->storeAs('public/uploads/kategori', $filename);
+            $data['image_url'] = 'uploads/kategori/' . $filename;
         }
 
         Kategori::create($data);

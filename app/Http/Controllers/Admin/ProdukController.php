@@ -34,14 +34,12 @@ class ProdukController extends Controller
 
         $data = $request->only(['id_kategori', 'nama_produk', 'harga', 'stock']);
 
-        // Simpan gambar jika di-upload
         if ($request->hasFile('image_url')) {
             $file = $request->file('image_url');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/uploads/produk', $filename);
-            $data['image_url'] = $filename;
+            $data['image_url'] = 'uploads/produk/' . $filename;
         }
-        // Generate kode_produk unik (misal: PRD001, PRD002, dst)
         $lastProduk = Produk::orderByDesc('id')->first();
         $nextNumber = $lastProduk ? ((int)substr($lastProduk->kode_produk, 3)) + 1 : 1;
         $data['kode_produk'] = 'PRD' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);

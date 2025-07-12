@@ -37,12 +37,13 @@
         <div class="col-lg-4 col-6">
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>{{ $user->email }}</h3>
-                    <p>Email</p>
+                    <h3>{{ session('cart') ? collect(session('cart'))->sum('qty') : 0 }}</h3>
+                    <p>Item di Keranjang</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-envelope"></i>
+                    <i class="fas fa-shopping-cart"></i>
                 </div>
+                <a href="{{ route('checkout') }}" class="small-box-footer">Lihat Keranjang <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>

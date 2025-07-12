@@ -20,9 +20,13 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Daftar Customer</h3>
+                    <a href="{{ route('admin.customers.create') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Tambah Customer
+                    </a>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="customerTable" class="table table-bordered table-striped">
@@ -31,8 +35,9 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Email</th>
+                                    <th>No. Telepon</th>
+                                    <th>Alamat</th>
                                     <th>Tanggal Daftar</th>
-                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -42,21 +47,22 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $customer->name }}</td>
                                         <td>{{ $customer->email }}</td>
-                                        <td>{{ $customer->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ $customer->no_telp ?? '-' }}</td>
+                                        <td>{{ $customer->alamat ?? '-' }}</td>
+                                        <td>{{ $customer->created_at ? $customer->created_at->format('d-m-Y') : '-' }}</td>
                                         <td>
-                                            @if ($customer->status ?? false)
-                                                <span class="badge badge-success">Aktif</span>
-                                            @else
-                                                <span class="badge badge-secondary">Nonaktif</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                            <a href="{{ route('admin.customers.show', $customer->id) }}" class="btn btn-sm btn-info">Detail</a>
+                                            <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                            <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-danger">Hapus</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center">Belum ada data customer</td>
+                                        <td colspan="7" class="text-center">Belum ada data customer</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -73,7 +79,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(document).ready(function() {
-            $("#customerTable").DataTable({
+            $('#customerTable').DataTable({
                 paging: true,
                 lengthChange: false,
                 searching: true,

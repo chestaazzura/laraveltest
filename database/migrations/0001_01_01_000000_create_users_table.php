@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('no_telp')->nullable(); // Tambahkan kolom no_telp
+            $table->text('alamat')->nullable(); // Tambahkan kolom alamat
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -42,9 +42,17 @@
                         </div>
 
                         <div class="form-group mt-3">
-                            <label for="image_url"><i class="fas fa-image"></i> URL Gambar (opsional)</label>
-                            <input type="text" name="image_url" class="form-control" value="{{ old('image_url', $kategori->image_url) }}">
+                            <label for="image"><i class="fas fa-image"></i> Gambar Kategori (opsional)</label>
+                            <input type="file" name="image" id="image" class="form-control-file" accept="image/*" onchange="previewImage(event)">
+                            <div class="mt-2">
+                                <span class="text-muted">Kosongkan jika tidak ingin mengubah gambar.</span>
+                            </div>
+                            <div class="mt-3">
+                                <label>Preview:</label><br>
+                                <img id="img-preview" src="{{ $kategori->image_url ? asset('storage/' . $kategori->image_url) : '' }}" alt="Preview" style="max-width: 180px; max-height: 180px; object-fit:cover; border-radius:6px; {{ $kategori->image_url ? '' : 'display:none;' }}">
+                            </div>
                         </div>
+
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-success">
@@ -59,4 +67,23 @@
             </div>
         </div>
     </section>
+@endsection
+@section('extra-js')
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('img-preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        }
+    </script>
 @endsection

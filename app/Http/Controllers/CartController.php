@@ -66,7 +66,7 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Jumlah produk di keranjang diperbarui!');
     }
 
-    // Tambahkan method buyNow
+    // Buy Now: simpan produk di session buy_now, lalu redirect ke checkout
     public function buyNow(Request $request, Produk $produk)
     {
         $qty = max(1, (int) $request->input('qty', 1));
@@ -80,10 +80,9 @@ class CartController extends Controller
         return redirect()->route('checkout');
     }
 
-    // Tambahkan method checkout
+    // Checkout: tampilkan halaman checkout, prioritas buy_now jika ada
     public function checkout()
     {
-        session()->forget('buy_now');
         $buyNow = session('buy_now');
         $cartItems = session('cart', []);
         return view('user.checkout', [
@@ -91,18 +90,6 @@ class CartController extends Controller
             'cartItems' => $buyNow ? [] : $cartItems,
         ]);
     }
-
-    // public function checkout()
-    // {
-    //     $buyNow = session('buy_now');
-    //     $cartItems = session('cart', []);
-    //     return view('user.checkout', [
-    //         'buyNow' => $buyNow,
-    //         'cartItems' => $buyNow ? [] : $cartItems,
-    //     ]);
-    // }
-
-
 
     public function processCheckout(Request $request)
     {
