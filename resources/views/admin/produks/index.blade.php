@@ -47,7 +47,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>
                                     @if ($produk->image_url)
-                                        <img src="{{ asset('storage/uploads/produk/' . $produk->image_url) }}" alt="{{ $produk->nama_produk }}" class="table-img">
+                                        <img src="{{ asset('storage/' . $produk->image_url) }}" alt="{{ $produk->nama_produk }}" class="table-img">
                                     @else
                                         <img src="{{ asset('img/BabyCare.png') }}" alt="Default" class="table-img">
                                     @endif

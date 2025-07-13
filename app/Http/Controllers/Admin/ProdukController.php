@@ -68,7 +68,7 @@ class ProdukController extends Controller
             'stock' => 'required|integer',
             'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        dd($request->all());
         $data = $request->only(['id_kategori', 'nama_produk', 'harga', 'stock']);
 
         // Cek jika user upload gambar baru
@@ -82,7 +82,7 @@ class ProdukController extends Controller
             $file = $request->file('image_url');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/uploads/produk', $filename);
-            $data['image_url'] = $filename;
+            $data['image_url'] = 'uploads/produk/' . $filename;
         }
 
         $produk->update($data);
