@@ -68,7 +68,6 @@ class ProdukController extends Controller
             'stock' => 'required|integer',
             'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        dd($request->all());
         $data = $request->only(['id_kategori', 'nama_produk', 'harga', 'stock']);
 
         // Cek jika user upload gambar baru
